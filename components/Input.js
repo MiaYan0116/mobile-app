@@ -10,6 +10,7 @@ const Input = ({changedHandler}) => {
 
 	function confirmHandler(){
 		changedHandler(enteredText);
+    setEnteredText("");
 	}
 
   return (
@@ -18,7 +19,7 @@ const Input = ({changedHandler}) => {
                 value={enteredText}
                 onChangeText={changeEnteredTextHandler} 
                 placeholder="useless placeholder"
-                keyboardType="text"
+                keyboardType="default"
     	/>
 			<Button title="Comfirm" onPress={confirmHandler}></Button>
     </View>

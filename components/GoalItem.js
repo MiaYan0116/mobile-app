@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Button } from "react-native";
+import {View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from 'react';
 
 // export default function GoalItem ({goal}) {
@@ -9,16 +9,23 @@ import React from 'react';
 //   );
 // }
 
-const GoalItem = ({goal, deleteHandler}) => {
+const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 	function deletePressed(){
 		deleteHandler(goal.id);
 	}
 
+	function goalPressed(){
+		pressHandler(goal.id)
+	}
+
 	return(
-		<View style={styles.goalContainer}>
-			<Text style={styles.text}>{goal.text}</Text>
-			<Button color='black' title='X' onPress={deletePressed}/>
-		</View>
+
+		<Pressable onPress={goalPressed}>
+			<View style={styles.goalContainer}>
+				<Text style={styles.text}>{goal.text}</Text>
+				<Button color='black' title='X' onPress={deletePressed}/>
+			</View>
+		</Pressable>
 	);
 }
 

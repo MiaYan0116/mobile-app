@@ -1,6 +1,7 @@
 import {View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from 'react';
 import PressableButton from './PressableButton';
+import { Octicons } from '@expo/vector-icons';
 
 // export default function GoalItem ({goal}) {
 //   return(
@@ -26,7 +27,10 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 			pressedStyle={styles.goalPressed}
 		>
 			<Text style={styles.text}>{goal.text}</Text>
-			<Button color='black' title='X' onPress={deletePressed}/>
+			<Pressable>
+				<Octicons name='trash' size={24} color='black'/>
+			</Pressable>
+			{/* <Button color='black' title='X' onPress={deletePressed}/> */}
 		</PressableButton>
 	);
 }

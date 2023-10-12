@@ -7,12 +7,9 @@ import Input from './components/Input';
 
 export default function App() {
   const name = "Mia's App";
-  const [text, setText] = useState("Hi")
+  const [text, setText] = useState("")
   const [modalVisible, setModalVisible] = useState(false)
 
-  const changeTextHandler = (changedText) => {
-    setText(changedText);
-  }
 
   function changeDataHandler(data){
     console.log(data);

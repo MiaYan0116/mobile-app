@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { StyleSheet, TextInput, View, Button, Modal, Image } from 'react-native';
 
 const Input = ({changedHandle, modalVisible, cancelHandler}) => {
-	const [enteredText, setEnteredText] = useState("hi");
-
+	const [enteredText, setEnteredText] = useState("");
+  
 	const changeEnteredTextHandler = (changedText) => {
     setEnteredText(changedText);
+    
   }
 
 	function confirmHandler(){
@@ -17,7 +18,10 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
   function cancelHandle(){
     cancelHandler();
     setEnteredText("");
+    
   }
+
+  
 
 
   return (
@@ -34,7 +38,7 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <Button title="Comfirm" onPress={confirmHandler}></Button>
+            <Button title="Comfirm" onPress={confirmHandler} disabled={!enteredText}></Button>
           </View>
           <View style={styles.button}>
             <Button title="Cancel" onPress={cancelHandle}></Button>

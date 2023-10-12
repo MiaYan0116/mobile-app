@@ -3,6 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, Fl
 import Header from './components/Header'
 import { useState } from 'react';
 import Input from './components/Input';
+import GoalItem from './components/GoalItem'
 
 
 export default function App() {
@@ -65,9 +66,10 @@ export default function App() {
           contentContainerStyle={styles.contentContainerStyle}
           data={goals}
           renderItem={({item}) => {
-            return(
-              <Text style={styles.text} key={item.id}>{item.text}</Text>
-            )
+            // return(
+            //   <Text style={styles.text} key={item.id}>{item.text}</Text>
+            // )
+            return <GoalItem goal={item}/>
           }}
         />
       </View>
@@ -93,12 +95,5 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center',
   },
-  text: {
-    color: '#a09',
-    borderRadius: 5,
-    marginBottom: 20,
-    padding: 5,
-    fontSize: 30,
-    backgroundColor: '#aaa',
-  }
+  
 });

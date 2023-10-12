@@ -39,7 +39,11 @@ export default function App() {
   }
 
   function goalDeleteHandler(deleteId){
-    console.log('I was deleted ', deleteId);
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => {
+        return goal.id != deleteId;
+      })
+    })
   }
 
 

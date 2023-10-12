@@ -38,6 +38,10 @@ export default function App() {
     setModalVisible(false);
   }
 
+  function goalDeleteHandler(deleteId){
+    console.log('I was deleted ', deleteId);
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,7 +73,7 @@ export default function App() {
             // return(
             //   <Text style={styles.text} key={item.id}>{item.text}</Text>
             // )
-            return <GoalItem goal={item}/>
+            return <GoalItem goal={item} deleteHandler={goalDeleteHandler}/>
           }}
         />
       </View>

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView} from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView} from 'react-native';
 import Header from './components/Header'
 import { useState } from 'react';
 import Input from './components/Input';
@@ -13,7 +13,7 @@ export default function App() {
 
 
   function generateRandomNumber(){
-    return Math.floor(Math.random() * 101);
+    return Math.floor(Math.random() * 1000001);
   }
 
   function changeDataHandler(data){
@@ -49,16 +49,19 @@ export default function App() {
         <Button title="Add a goal" onPress={addAGoalHandler}></Button>
       </View>
       <View style={styles.bottomContainer}>
-        {goals.map((goal) => {
-          return(
-            <View key={goal.id}>
-              <Text style={styles.text}>Text is: {goal.text}</Text>
-            </View>
-          )
-          
-        })}      
+        <ScrollView 
+          bounces={false}
+          contentContainerStyle={styles.contentContainerStyle}
+        >
+          {goals.map((goal) => {
+            return(
+              <View key={goal.id}>
+                <Text style={styles.text}>{goal.text}</Text>
+              </View>
+            )
+          })}      
+        </ScrollView>
       </View>
-      
     </SafeAreaView>
   );
 }
@@ -77,6 +80,8 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 4,
     backgroundColor: '#dcd',
+  },
+  contentContainerStyle: {
     alignItems: 'center',
   },
   text: {
@@ -84,8 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     padding: 5,
-    fontsize: 30,
-    overflow: 'hidden',
+    fontSize: 30,
     backgroundColor: '#aaa',
   }
 });

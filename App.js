@@ -37,7 +37,10 @@ export default function App() {
         <Button title="Add a goal" onPress={addAGoalHandler}></Button>
       </View>
       <View style={styles.bottomContainer}>
-        <Text>Text is: {text}</Text>
+        <View style={styles.text}>
+          <Text>Text is: {text}</Text>
+        </View>
+        
       </View>
       
     </SafeAreaView>
@@ -47,15 +50,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // height: '20%',
     backgroundColor: '#fff',
-    // alignItems: 'center',
     justifyContent: 'center',
-  },
-  input: {
-    borderColor:'blue',
-    borderBottomWidth: 2,
-    // borderWidth: "50%",
   },
   topContainer: {
     flex: 1,
@@ -64,7 +60,13 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 4,
-    backgroundColor: '#a59',
+    backgroundColor: '#dcd',
     alignItems: 'center',
+  },
+  text: {
+    color: '#a09',
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: 'lightgrey',
   }
 });

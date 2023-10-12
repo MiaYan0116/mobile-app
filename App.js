@@ -7,13 +7,25 @@ import Input from './components/Input';
 
 export default function App() {
   const name = "Mia's App";
+  const [goals, setGoals] = useState([])
   const [text, setText] = useState("")
   const [modalVisible, setModalVisible] = useState(false)
 
 
+  function generateRandomNumber(){
+    return Math.floor(Math.random() * 101);
+  }
+
   function changeDataHandler(data){
-    console.log(data);
+    const randomNumber = generateRandomNumber();
+    const goal = {
+      id: randomNumber,
+      text: data,
+    }
 		setText(data);
+    setGoals((prevGoals) => {
+      return [...prevGoals, goal];
+    }, goal);
     setModalVisible(false);
 	}
 
@@ -37,10 +49,14 @@ export default function App() {
         <Button title="Add a goal" onPress={addAGoalHandler}></Button>
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.text}>
-          <Text>Text is: {text}</Text>
-        </View>
-        
+        {goals.map((goal) => {
+          return(
+            <View key={goal.id}>
+              <Text style={styles.text}>Text is: {goal.text}</Text>
+            </View>
+          )
+          
+        })}      
       </View>
       
     </SafeAreaView>
@@ -65,8 +81,11 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#a09',
-    borderRadius: 10,
-    borderWidth: 2,
-    backgroundColor: 'lightgrey',
+    borderRadius: 5,
+    marginBottom: 20,
+    padding: 5,
+    fontsize: 30,
+    overflow: 'hidden',
+    backgroundColor: '#aaa',
   }
 });

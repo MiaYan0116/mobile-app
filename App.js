@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView} from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, FlatList} from 'react-native';
 import Header from './components/Header'
 import { useState } from 'react';
 import Input from './components/Input';
@@ -49,7 +49,7 @@ export default function App() {
         <Button title="Add a goal" onPress={addAGoalHandler}></Button>
       </View>
       <View style={styles.bottomContainer}>
-        <ScrollView 
+        {/* <ScrollView 
           bounces={false}
           contentContainerStyle={styles.contentContainerStyle}
         >
@@ -60,7 +60,16 @@ export default function App() {
               </View>
             )
           })}      
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList 
+          contentContainerStyle={styles.contentContainerStyle}
+          data={goals}
+          renderItem={({item}) => {
+            return(
+              <Text style={styles.text} key={item.id}>{item.text}</Text>
+            )
+          }}
+        />
       </View>
     </SafeAreaView>
   );

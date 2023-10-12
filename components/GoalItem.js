@@ -20,11 +20,13 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 
 	return(
 
-		<Pressable onPress={goalPressed}>
-			<View style={styles.goalContainer}>
-				<Text style={styles.text}>{goal.text}</Text>
-				<Button color='black' title='X' onPress={deletePressed}/>
-			</View>
+		<Pressable 
+			style={styles.goalContainer} 
+			onPress={goalPressed}
+			android_ripple={{color: '#add'}}
+		>
+			<Text style={styles.text}>{goal.text}</Text>
+			<Button color='black' title='X' onPress={deletePressed}/>
 		</Pressable>
 	);
 }

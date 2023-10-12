@@ -1,19 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView} from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, FlatList} from 'react-native';
 import Header from './components/Header'
 import { useState } from 'react';
 import Input from './components/Input';
+import GoalItem from './components/GoalItem'
 
 
 export default function App() {
   const name = "Mia's App";
+  const [goals, setGoals] = useState([])
   const [text, setText] = useState("")
   const [modalVisible, setModalVisible] = useState(false)
 
 
+  function generateRandomNumber(){
+    return Math.floor(Math.random() * 1000001);
+  }
+
   function changeDataHandler(data){
-    console.log(data);
+    const randomNumber = generateRandomNumber();
+    const goal = {
+      id: randomNumber,
+      text: data,
+    }
 		setText(data);
+    setGoals((prevGoals) => {
+      return [...prevGoals, goal];
+    }, goal);
     setModalVisible(false);
 	}
 
@@ -23,6 +36,14 @@ export default function App() {
 
   function cancelHandler(){
     setModalVisible(false);
+  }
+
+  function goalDeleteHandler(deleteId){
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => {
+        return goal.id != deleteId;
+      })
+    })
   }
 
 
@@ -37,12 +58,29 @@ export default function App() {
         <Button title="Add a goal" onPress={addAGoalHandler}></Button>
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.text}>
-          <Text>Text is: {text}</Text>
-        </View>
-        
+        {/* <ScrollView 
+          bounces={false}
+          contentContainerStyle={styles.contentContainerStyle}
+        >
+          {goals.map((goal) => {
+            return(
+              <View key={goal.id}>
+                <Text style={styles.text}>{goal.text}</Text>
+              </View>
+            )
+          })}      
+        </ScrollView> */}
+        <FlatList 
+          contentContainerStyle={styles.contentContainerStyle}
+          data={goals}
+          renderItem={({item}) => {
+            // return(
+            //   <Text style={styles.text} key={item.id}>{item.text}</Text>
+            // )
+            return <GoalItem goal={item} deleteHandler={goalDeleteHandler}/>
+          }}
+        />
       </View>
-      
     </SafeAreaView>
   );
 }
@@ -61,12 +99,9 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 4,
     backgroundColor: '#dcd',
+  },
+  contentContainerStyle: {
     alignItems: 'center',
   },
-  text: {
-    color: '#a09',
-    borderRadius: 10,
-    borderWidth: 2,
-    backgroundColor: 'lightgrey',
-  }
+  
 });

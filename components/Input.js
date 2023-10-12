@@ -32,9 +32,15 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
                   placeholder="useless placeholder"
                   keyboardType="default"
         />
-        
-        <Button title="Comfirm" onPress={confirmHandler}></Button>
-        <Button title="Cancel" onPress={cancelHandle}></Button>
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="Comfirm" onPress={confirmHandler}></Button>
+          </View>
+          <View style={styles.button}>
+            <Button title="Cancel" onPress={cancelHandle}></Button>
+          </View>
+          
+        </View>
       </View>
     </Modal>
     
@@ -51,11 +57,20 @@ const styles = StyleSheet.create({
   input: {
     borderColor:'blue',
     borderBottomWidth: 2,
+    marginTop: 10,
+    marginBottom: 15
   },
 
   image: {
     width: 100,
     height:100,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  button: {
+    marginHorizontal: 10,
+    width: '30%'
   }
 });
 export default Input

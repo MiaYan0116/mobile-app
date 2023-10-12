@@ -1,5 +1,7 @@
-import {View, Text, StyleSheet, Button } from "react-native";
+import {View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from 'react';
+import PressableButton from './PressableButton';
+import { Octicons } from '@expo/vector-icons';
 
 // export default function GoalItem ({goal}) {
 //   return(
@@ -9,16 +11,27 @@ import React from 'react';
 //   );
 // }
 
-const GoalItem = ({goal, deleteHandler}) => {
+const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 	function deletePressed(){
 		deleteHandler(goal.id);
 	}
 
+	function goalPressed(){
+		pressHandler(goal.id)
+	}
+
 	return(
-		<View style={styles.goalContainer}>
+		<PressableButton 
+			pressedFunction={goalPressed}
+			defaultStyle={styles.goalContainer}
+			pressedStyle={styles.goalPressed}
+		>
 			<Text style={styles.text}>{goal.text}</Text>
-			<Button color='black' title='X' onPress={deletePressed}/>
-		</View>
+			<Pressable>
+				<Octicons name='trash' size={24} color='black'/>
+			</Pressable>
+			{/* <Button color='black' title='X' onPress={deletePressed}/> */}
+		</PressableButton>
 	);
 }
 
@@ -34,7 +47,11 @@ const styles = StyleSheet.create({
     color: '#a09',
     padding: 5,
     fontSize: 30,
-  }
+  },
+	goalPressed:{
+		backgroundColor: '#add',
+		opacity: 0.5,
+	},
 });
 
 export default GoalItem;

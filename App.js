@@ -38,6 +38,10 @@ export default function App() {
     setModalVisible(false);
   }
 
+  function goalPressHandler(pressId){
+    console.log('I am pressing', pressId);
+  }
+
   function goalDeleteHandler(deleteId){
     setGoals((prevGoals) => {
       return prevGoals.filter((goal) => {
@@ -54,7 +58,11 @@ export default function App() {
       <View style={styles.topContainer}>
         <Header name={name}/>
         <StatusBar style="auto" />
-        <Input changedHandle={changeDataHandler} modalVisible={modalVisible} cancelHandler={cancelHandler}/>
+        <Input 
+          changedHandle={changeDataHandler} 
+          modalVisible={modalVisible} 
+          cancelHandler={cancelHandler} 
+        />
         <Button title="Add a goal" onPress={addAGoalHandler}></Button>
       </View>
       <View style={styles.bottomContainer}>
@@ -77,7 +85,13 @@ export default function App() {
             // return(
             //   <Text style={styles.text} key={item.id}>{item.text}</Text>
             // )
-            return <GoalItem goal={item} deleteHandler={goalDeleteHandler}/>
+            return(
+              <GoalItem 
+                goal={item} 
+                deleteHandler={goalDeleteHandler}
+                pressHandler={goalPressHandler}
+            />
+          )
           }}
         />
       </View>

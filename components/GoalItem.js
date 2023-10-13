@@ -17,7 +17,7 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 	}
 
 	function goalPressed(){
-		pressHandler(goal.id)
+		pressHandler(goal)
 	}
 
 	return(

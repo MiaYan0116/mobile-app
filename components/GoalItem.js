@@ -27,9 +27,13 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 			pressedStyle={styles.goalPressed}
 		>
 			<Text style={styles.text}>{goal.text}</Text>
-			<Pressable>
+			<PressableButton
+				pressedFunction={deletePressed}
+				defaultStyle={styles.goalContainer}
+				pressedStyle={styles.goalPressed}
+			>
 				<Octicons name='trash' size={24} color='black'/>
-			</Pressable>
+				</PressableButton>
 			{/* <Button color='black' title='X' onPress={deletePressed}/> */}
 		</PressableButton>
 	);

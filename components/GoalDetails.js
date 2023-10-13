@@ -1,11 +1,16 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
 
-const GoalDetails = ({ route }) => {
+const GoalDetails = ({ navigation, route }) => {
   return (
     <View>
-      <Text>{route.params.id}, {route.params.text}</Text>
-			{/* <Button title='More' onPress= {() => navigation.push('Details')}/> */}
+			{route.params ? (
+				<Text>{route.params.id}, {route.params.text}</Text>
+			) : (
+				<Text>No extra data</Text>
+			)}
+      
+			<Button title='More' onPress= {() => navigation.navigate('Details')}/>
     </View>
   )
 }

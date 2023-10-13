@@ -22,13 +22,17 @@ export default function App () {
           name='Home' 
           component={Home}
           options={{
-            title: 'HomePage',
+            title: 'All My Goals',
           }}
         />
         <Stack.Screen 
           name='Details' 
           component={GoalDetails}
-          options={({ route }) => ({title: route.params.text})}
+          options={({ route }) => {
+            return {
+              title: route.params.text
+            }
+          }}
         />
       </Stack.Navigator>
       

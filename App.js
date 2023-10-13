@@ -10,9 +10,26 @@ console.log(Stack);
 export default function App () {
   return(
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Home' component={Home}/>
-        <Stack.Screen name='Details' component={GoalDetails}/>
+      <Stack.Navigator 
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#b8a'
+          },
+          headerTintColor: '#fff'
+        }}
+      >
+        <Stack.Screen 
+          name='Home' 
+          component={Home}
+          options={{
+            title: 'HomePage',
+          }}
+        />
+        <Stack.Screen 
+          name='Details' 
+          component={GoalDetails}
+          options={({ route }) => ({title: route.params.text})}
+        />
       </Stack.Navigator>
       
     </NavigationContainer>

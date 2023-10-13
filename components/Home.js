@@ -40,9 +40,7 @@ export default function Home({ navigation }) {
   }
 
   function goalPressHandler(goal){
-    console.log('I am pressing', goal);
-		navigation.navigate('Details');
-
+		navigation.navigate('Details', goal);
   }
 
   function goalDeleteHandler(deleteId){

@@ -5,8 +5,7 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
 	const [enteredText, setEnteredText] = useState("");
   
 	const changeEnteredTextHandler = (changedText) => {
-    setEnteredText(changedText);
-    
+    setEnteredText(changedText); 
   }
 
 	function confirmHandler(){
@@ -18,12 +17,9 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
   function cancelHandle(){
     cancelHandler();
     setEnteredText("");
-    
   }
 
   
-
-
   return (
     <Modal visible={modalVisible}>
       <View style={styles.container}>

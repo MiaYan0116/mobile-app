@@ -12,8 +12,12 @@ const Header = (props) => {
 
 const styles = StyleSheet.create({
   headerView: {
-    marginTop: 30,
-    marginBottom: 10,
+    color: "darkslateblue",
+    borderColor: "darkslateblue",
+    borderWidth: 3,
+    fontSize: 25,
+    fontWeight: "bold",
+    padding: 5,
   }
 })
 

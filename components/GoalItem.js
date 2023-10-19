@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from 'react';
 import PressableButton from './PressableButton';
 import { Octicons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/core";
 
 // export default function GoalItem ({goal}) {
 //   return(
@@ -16,8 +17,10 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 		deleteHandler(goal.id);
 	}
 
+	const navigation = useNavigation();
+
 	function goalPressed(){
-		pressHandler(goal.id)
+		pressHandler(goal)
 	}
 
 	return(

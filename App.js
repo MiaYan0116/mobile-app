@@ -5,7 +5,7 @@ import GoalDetails from "./components/GoalDetails";
 import PressableButton from "./components/PressableButton";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Entypo } from '@expo/vector-icons';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -34,16 +34,6 @@ export default function App () {
           options={({ route }) => {
             return {
               title: route.params.text,
-              headerRight: () => {
-                return (
-                  <PressableButton
-                    defaultStyle={{backgroundColor: '#b8a', padding: 5}}
-                    pressedStyle={{opacity: 0.6}}
-                  >
-                    <Entypo name='warning' size={24} color='black'/>
-                  </PressableButton>
-                )
-              }
             }
           }}
         />

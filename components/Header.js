@@ -1,15 +1,19 @@
 
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, useWindowDimensions } from 'react-native';
 import React from 'react'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Header = (props) => {
-
+  const { width, height } = useWindowDimensions();
+  let fontSizeDynamic = 20;
+  const dynamicFontSize = () => {
+    return width < 400 ? 20: 25;
+  }
   return (
     <View style={styles.headerView}>
-      <Text>Welcome to {props.name}</Text>
+      <Text style={{fontSize: dynamicFontSize()} }>Welcome to {props.name}</Text>
     </View>
   )
 }
@@ -19,7 +23,6 @@ const styles = StyleSheet.create({
     color: "darkslateblue",
     borderColor: "darkslateblue",
     borderWidth: 3,
-    fontSize: windowWidth < 400 ? 20: 25,
     fontWeight: "bold",
     padding: 5,
   }

@@ -16,28 +16,31 @@ export default function Home({ navigation }) {
   const [text, setText] = useState("")
   const [modalVisible, setModalVisible] = useState(false)
 
-  function generateRandomNumber(){
-    return Math.floor(Math.random() * 1000001);
-  }
-
   useEffect(() => {
-    onSnapshot(collection(database, "goals"), (querySnapshot) => {
-      if (!querySnapshot.empty) {
+    const unsubscribe = onSnapshot(
+      collection(database, "goals"),
+      (querySnapshot) => {
         let newArray = [];
-        // use a for loop to call .data() on each item of querySnapshot.docs
-        querySnapshot.docs.forEach((docSnap) => {
-          newArray.push({ ...docSnap.data(), id: docSnap.id });
-        });
-        // This also works, because .forEach method of querysnapshot enumerated all the documentsnapshots in it
-        // querySnapshot.forEach((docSnap) => {
-        //   newArray.push(docSnap.data());
-        // });
-        // for (let i = 0; i < querySnapshot.docs.length; i++) {
-        //   newArray.push(querySnapshot.docs[i].data());
-        // }
+
+        if (!querySnapshot.empty) {
+          // use a for loop to call .data() on each item of querySnapshot.docs
+          querySnapshot.docs.forEach((docSnap) => {
+            newArray.push({ ...docSnap.data(), id: docSnap.id });
+          });
+          // This also works, because .forEach method of querysnapshot enumerated all the documentsnapshots in it
+          // querySnapshot.forEach((docSnap) => {
+          //   newArray.push({ ...docSnap.data(), id: docSnap.id });
+          // });
+          // for (let i = 0; i < querySnapshot.docs.length; i++) {
+          //   newArray.push(querySnapshot.docs[i].data());
+          // }
+        }
         setGoals(newArray);
       }
-    });
+    );
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   function changeDataHandler(data){
@@ -106,9 +109,6 @@ export default function Home({ navigation }) {
           contentContainerStyle={styles.contentContainerStyle}
           data={goals}
           renderItem={({ item }) => {
-            // return(
-            //   <Text style={styles.text} key={item.id}>{item.text}</Text>
-            // )
             return(
               <GoalItem 
                 goal={item} 

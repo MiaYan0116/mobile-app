@@ -23,7 +23,6 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
   return (
     <Modal visible={modalVisible}>
       <View style={styles.container}>
-        {/* <Image source={{uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png'}} style={styles.image}/> */}
         <Image source={require('../assets/week2-image.png')} style={{width: 100, height: 100}}/>
 
         <TextInput style={styles.input} 

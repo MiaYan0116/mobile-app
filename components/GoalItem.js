@@ -4,14 +4,6 @@ import PressableButton from './PressableButton';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/core";
 
-// export default function GoalItem ({goal}) {
-//   return(
-//     <View>
-// 			<Text style={styles.text}>{goal.text}</Text>
-// 		</View>
-//   );
-// }
-
 const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 	function deletePressed(){
 		deleteHandler(goal.id);
@@ -20,7 +12,7 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 	const navigation = useNavigation();
 
 	function goalPressed(){
-		pressHandler(goal)
+		pressHandler(goal);
 	}
 
 	return(
@@ -37,7 +29,6 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) => {
 			>
 				<Octicons name='trash' size={24} color='black'/>
 			</PressableButton>
-			{/* <Button color='black' title='X' onPress={deletePressed}/> */}
 		</PressableButton>
 	);
 }

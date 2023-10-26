@@ -1,34 +1,56 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, ScrollView, FlatList} from 'react-native';
 import Header from './Header'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Input from './Input';
 import GoalItem from './GoalItem';
+import { deleteFromDB, writeToDB } from '../firebase/firestoreHelper';
+import { QuerySnapshot, collection, onSnapshot, query } from 'firebase/firestore';
+import { database } from '../firebase/firebaseSetUp';
+
 
 
 export default function Home({ navigation }) {
-	console.log(navigation);
   const name = "Mia's App";
   const [goals, setGoals] = useState([])
   const [text, setText] = useState("")
   const [modalVisible, setModalVisible] = useState(false)
 
-
   function generateRandomNumber(){
     return Math.floor(Math.random() * 1000001);
   }
 
+  useEffect(() => {
+    onSnapshot(collection(database, "goals"), (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        let newArray = [];
+        // use a for loop to call .data() on each item of querySnapshot.docs
+        querySnapshot.docs.forEach((docSnap) => {
+          newArray.push({ ...docSnap.data(), id: docSnap.id });
+        });
+        // This also works, because .forEach method of querysnapshot enumerated all the documentsnapshots in it
+        // querySnapshot.forEach((docSnap) => {
+        //   newArray.push(docSnap.data());
+        // });
+        // for (let i = 0; i < querySnapshot.docs.length; i++) {
+        //   newArray.push(querySnapshot.docs[i].data());
+        // }
+        setGoals(newArray);
+      }
+    });
+  }, []);
+
   function changeDataHandler(data){
-    const randomNumber = generateRandomNumber();
     const goal = {
-      id: randomNumber,
       text: data,
     }
 		setText(data);
     setGoals((prevGoals) => {
       return [...prevGoals, goal];
     }, goal);
+    writeToDB(goal);
     setModalVisible(false);
+    
 	}
 
   function addAGoalHandler(){
@@ -49,6 +71,7 @@ export default function Home({ navigation }) {
         return goal.id != deleteId;
       })
     })
+    deleteFromDB("deleteId", deleteId);
   }
 
 
@@ -82,14 +105,14 @@ export default function Home({ navigation }) {
         <FlatList 
           contentContainerStyle={styles.contentContainerStyle}
           data={goals}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             // return(
             //   <Text style={styles.text} key={item.id}>{item.text}</Text>
             // )
             return(
               <GoalItem 
                 goal={item} 
-                deleteHandler={goalDeleteHandler}
+                deleteHandler={() => goalDeleteHandler(item.id)}
                 pressHandler={goalPressHandler}
             />
           )

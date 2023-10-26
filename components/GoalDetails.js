@@ -6,6 +6,7 @@ import PressableButton from './PressableButton';
 
 const GoalDetails = ({ navigation, route }) => {
 	const [isWarned, setIsWarned] = useState(false);
+	// use navigation.setOptions to modify isWarned
 	useEffect(() => {
 		navigation.setOptions({
 			headerRight: () => {
@@ -23,7 +24,7 @@ const GoalDetails = ({ navigation, route }) => {
 				)
 			}
 		})
-	}, [])
+	}, [navigation])
 	
   return (
     <View>

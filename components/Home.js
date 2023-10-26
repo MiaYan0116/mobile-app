@@ -74,7 +74,7 @@ export default function Home({ navigation }) {
         return goal.id != deleteId;
       })
     })
-    deleteFromDB("deleteId", deleteId);
+    deleteFromDB(deleteId);
   }
 
 

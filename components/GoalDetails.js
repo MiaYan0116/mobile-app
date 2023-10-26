@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Button } from 'react-native'
 import { Entypo } from '@expo/vector-icons';
 import PressableButton from './PressableButton';
+import GoalUsers from './GoalUsers';
 
 
 const GoalDetails = ({ navigation, route }) => {
@@ -37,7 +38,7 @@ const GoalDetails = ({ navigation, route }) => {
 			{isWarned && 
 				<Button title='More' onPress= {() => navigation.navigate('Details')}/>
 			}
-			
+			<GoalUsers/>
     </View>
   )
 }

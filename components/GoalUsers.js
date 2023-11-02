@@ -31,7 +31,7 @@ export default function GoalUsers() {
         {
           method: "POST",
           headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ name: "Mia" }),
+          body: JSON.stringify({ name: "Neda" }),
         }
       );
 

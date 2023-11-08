@@ -16,6 +16,8 @@ import GoalItem from "./GoalItem";
 import { database } from "../firebase/firebaseSetup";
 import { deleteFromDB, writeToDB } from "../firebase/firestoreHelper.js";
 import { collection, onSnapshot } from "firebase/firestore";
+import { PressableButton } from './PressableButton';
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Home({ navigation }) {
   const [text, setText] = useState("");

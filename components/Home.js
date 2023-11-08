@@ -13,7 +13,7 @@ import Header from "./Header";
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
-import { database } from "../firebase/firebaseSetUp";
+import { database } from "../firebase/firebaseSetup";
 import { deleteFromDB, writeToDB } from "../firebase/firestoreHelper.js";
 import { collection, onSnapshot } from "firebase/firestore";
 
@@ -109,8 +109,8 @@ export default function Home({ navigation }) {
         {/* pass another prop to Input with the modalIsVisible as its value */}
         <Input
           changedHandler={changedDataHandler}
-          modalVisiblity={isModalVisible}
-          hideModal={makeModalInvisible}
+          modalVisible={isModalVisible}
+          cancelHandler={makeModalInvisible}
         />
         <Button title="Add a goal" onPress={makeModalVisible} />
         {/* Inside this text show what user is typing */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, TextInput, View, Button, Modal, Image } from 'react-native';
 
-const Input = ({changedHandle, modalVisible, cancelHandler}) => {
+const Input = ({changedHandler, modalVisible, cancelHandler}) => {
 	const [enteredText, setEnteredText] = useState("");
   
 	const changeEnteredTextHandler = (changedText) => {
@@ -9,7 +9,7 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
   }
 
 	function confirmHandler(){
-		changedHandle(enteredText);
+		changedHandler(enteredText);
     setEnteredText("");
     cancelHandler(false);
 	}
@@ -23,7 +23,7 @@ const Input = ({changedHandle, modalVisible, cancelHandler}) => {
   return (
     <Modal visible={modalVisible}>
       <View style={styles.container}>
-        <Image source={require('../assets/week2-image.png')} style={{width: 100, height: 100}}/>
+        <Image source={require('../assets/goal.png')} style={{width: 100, height: 100}}/>
 
         <TextInput style={styles.input} 
                   value={enteredText}
@@ -73,4 +73,3 @@ const styles = StyleSheet.create({
   }
 });
 export default Input
-

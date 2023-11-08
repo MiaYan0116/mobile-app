@@ -1,6 +1,8 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { Alert, View, Text, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react'
 import PressableButton from './PressableButton';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebaseSetup';
 
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState("");
@@ -17,8 +19,27 @@ const Signup = ({navigation}) => {
 		setConfirmPassword(changedConfirmPassword);
 	}
 
-	const registerHandler = () => {
-		console.log("user:", email, password,confirmPassword);
+	const registerHandler = async () => {
+		if(!email || !password || !confirmPassword){
+			Alert.alert("All fields should be filled")
+			return;
+		}
+		if(password !== confirmPassword){
+			Alert.alert("The password should match the confirm password")
+			return;
+		}
+		try {
+			const userCred = await createUserWithEmailAndPassword(auth, email, password);
+			console.log(userCred);
+		} catch (error) {
+			console.log("signup err", error.code)
+			if(error.code === 'auth/invalid-email'){
+				Alert.alert("email is invalid")
+			}else if(error.code === 'auth/weak-password'){
+				Alert.alert("Password should be at least 6 characters")
+			}
+		}
+		
 	}
 
 	const loginHandler = () => {

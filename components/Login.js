@@ -1,6 +1,8 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { Alert, View, Text, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react'
 import PressableButton from './PressableButton';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/firebaseSetup'
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -13,8 +15,21 @@ const Login = ({ navigation }) => {
 		setPassword(changedPassword);
 	}
 
-	const loginHandler = () => {
+	const loginHandler = async () => {
 		console.log("current user:", email, password);
+		if(!email || !password){
+			Alert.alert("fields should all be filled")
+			return;
+		}
+		try {
+			await signInWithEmailAndPassword(auth, email, password)
+		} catch (error) {
+			if(error.code === 'auth/invalid-email'){
+				Alert.alert("invalid email")
+			}else if(error.code === 'auth/invalid-login-credentials'){
+				Alert.alert('invalid username or password')
+			}
+		}
 	}
 
 	const registerHandler = () => {

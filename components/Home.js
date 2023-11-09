@@ -8,14 +8,15 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  Alert
 } from "react-native";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
-import { database } from "../firebase/firebaseSetup";
+import { database, auth } from "../firebase/firebaseSetup";
 import { deleteFromDB, writeToDB } from "../firebase/firestoreHelper.js";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { PressableButton } from './PressableButton';
 import { Ionicons } from "@expo/vector-icons";
 
@@ -25,8 +26,11 @@ export default function Home({ navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const name = "My Awesome App";
   useEffect(() => {
+    const q = query (
+      collection(database, "goals"), 
+      where("user", "==", auth.currentUser.uid));
     const unsubscribe = onSnapshot(
-      collection(database, "goals"),
+      q,
       (querySnapshot) => {
         let newArray = [];
 
@@ -44,6 +48,11 @@ export default function Home({ navigation }) {
           // }
         }
         setGoals(newArray);
+      },(err) => {
+        console.log(err)
+        if(err.code === "permission-denied"){
+          Alert.alert("You don't have the permission")
+        }
       }
     );
     return () => {

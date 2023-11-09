@@ -1,9 +1,10 @@
 import { collection, addDoc, deleteDoc, doc } from "firebase/firestore"
-import { database } from "./firebaseSetup"
+import { database, auth } from "./firebaseSetup"
 
 export async function writeToDB(goal) {
   try {
-    const docRef = await addDoc(collection(database, "goals"), goal);
+    console.log("uid:", auth.currentUser.uid);
+    const docRef = await addDoc(collection(database, "goals"), {...goal, user: auth.currentUser.uid});
     console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error("Error writing document: ", error);

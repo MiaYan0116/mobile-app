@@ -1,7 +1,4 @@
-import { Alert, View, Text, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react'
-import PressableButton from './PressableButton';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { View, Text } from 'react-native';
 import { auth } from '../firebase/firebaseSetup'
 
 const Profile = () => {

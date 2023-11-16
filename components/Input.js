@@ -1,84 +1,94 @@
-import React, { useState } from 'react'
-import { StyleSheet, TextInput, View, Button, Modal, Image } from 'react-native';
-import ImageManager from './ImageManager';
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  Image,
+  TextInput,
+  View,
+} from "react-native";
+import React, { useState } from "react";
+import { colors } from "../colors";
+import ImageManager from "./ImageManager";
 
-const Input = ({changedHandler, modalVisible, cancelHandler}) => {
-	const [enteredText, setEnteredText] = useState("");
+// receive the modalIsvisible prop
+const Input = ({ changedHandler, modalVisiblity, hideModal }) => {
+  const [enteredText, setEnteredText] = useState("");
   const [takenImageUri, setTakenImageUri] = useState("");
-
-	const changeEnteredTextHandler = (changedText) => {
-    setEnteredText(changedText); 
+  //update this callback function to receive the changed text and store it in text state variable
+  function changeTextHandler(changedText) {
+    setEnteredText(changedText);
   }
 
-	function confirmHandler(){
-		changedHandler(enteredText);
+  function cancelHandler() {
+    hideModal();
+  }
+  function confirmHandler() {
+    // call a function that is passed to me from App.js and pass the enteredText via it
+    changedHandler({ text: enteredText, uri: takenImageUri });
+    //clear the textinput
     setEnteredText("");
-    cancelHandler(false);
-	}
-
-  function cancelHandle(){
-    cancelHandler();
-    setEnteredText("");
+  }
+  function passImageUri(uri) {
+    // store the uri in a state variable
+    setTakenImageUri(uri);
   }
 
-  function getImageUri(uri){
-
-  }
-
-  
   return (
-    <Modal visible={modalVisible}>
+    // use the new peop to show the modal
+    <Modal visible={modalVisiblity}>
       <View style={styles.container}>
-      <Image source={{uri: "https://7f8db205ecbd3cb05352-db579bf47a181634e7561a7d0e82a26f.ssl.cf5.rackcdn.com/2018/08/target-market.jpg"}} style={{width: 100, height: 100}}/>
-      <Image source={require('../assets/goal.png')} style={{width: 100, height: 100}}/>
-
-        <TextInput style={styles.input} 
-                  value={enteredText}
-                  onChangeText={changeEnteredTextHandler} 
-                  placeholder="useless placeholder"
-                  keyboardType="default"
+        <Image
+          source={{
+            uri: "https://cdn-icons-png.flaticon.com/512/2617/2617812.png",
+          }}
+          style={styles.image}
         />
-        <ImageManager/>
+        <Image source={require("../assets/goal.png")} style={styles.image} />
+
+        <TextInput
+          style={styles.input}
+          onChangeText={changeTextHandler}
+          value={enteredText}
+        />
+        <ImageManager passImageUri={passImageUri} />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <Button title="Comfirm" onPress={confirmHandler} disabled={!enteredText}></Button>
+            <Button color="red" title="Cancel" onPress={cancelHandler} />
           </View>
           <View style={styles.button}>
-            <Button title="Cancel" onPress={cancelHandle}></Button>
+            <Button
+              disabled={!enteredText}
+              title="Confirm"
+              onPress={confirmHandler}
+            />
           </View>
-          
-          
         </View>
       </View>
     </Modal>
-    
-  )
-}
+  );
+};
+
+export default Input;
+
 const styles = StyleSheet.create({
+  input: {
+    borderBottomColor: "purple",
+    borderBottomWidth: 2,
+    width: 200,
+  },
   container: {
     flex: 1,
-    backgroundColor: 'lightgrey',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: colors.mdoal,
+    alignItems: "center",
+    justifyContent: "center",
   },
-
-  input: {
-    borderColor:'blue',
-    borderBottomWidth: 2,
-    marginTop: 10,
-    marginBottom: 15
-  },
-
   image: {
     width: 100,
-    height:100,
+    height: 100,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-  },
+  buttonContainer: { flexDirection: "row", marginTop: 15 },
   button: {
     marginHorizontal: 10,
-    width: '30%'
-  }
+    width: "30%",
+  },
 });
-export default Input

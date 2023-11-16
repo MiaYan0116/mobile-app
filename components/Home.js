@@ -8,27 +8,26 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-  Alert
+  Alert,
 } from "react-native";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import GoalItem from "./GoalItem";
-import { database, auth } from "../firebase/firebaseSetup";
+import { auth, database, storage } from "../firebase/firebaseSetup";
 import { deleteFromDB, writeToDB } from "../firebase/firestoreHelper.js";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { PressableButton } from './PressableButton';
-import { Ionicons } from "@expo/vector-icons";
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 export default function Home({ navigation }) {
-  const [text, setText] = useState("");
   const [goals, setGoals] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const name = "My Awesome App";
   useEffect(() => {
-    const q = query (
-      collection(database, "goals"), 
-      where("user", "==", auth.currentUser.uid));
+    const q = query(
+      collection(database, "goals"),
+      where("user", "==", auth.currentUser.uid)
+    );
     const unsubscribe = onSnapshot(
       q,
       (querySnapshot) => {
@@ -48,10 +47,13 @@ export default function Home({ navigation }) {
           // }
         }
         setGoals(newArray);
-      },(err) => {
-        console.log(err)
-        if(err.code === "permission-denied"){
-          Alert.alert("You don't have the permission")
+      },
+      (err) => {
+        console.log(err);
+        if (err.code === "permission-denied") {
+          Alert.alert(
+            "You don't have permission or there is an error in your querys"
+          );
         }
       }
     );
@@ -59,17 +61,37 @@ export default function Home({ navigation }) {
       unsubscribe();
     };
   }, []);
-  function changedDataHandler(data) {
-    const newGoal = { text: data };
+
+  async function uploadImageToStorage(uri) {
+    try {
+      const response = await fetch(uri);
+      const imageBlob = await response.blob();
+      const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+      const imageRef = await ref(storage, `images/${imageName}`);
+      const uploadResult = await uploadBytesResumable(imageRef, imageBlob);
+      return uploadResult.metadata.fullPath;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function changedDataHandler(data) {
+    // recieve data={text:..,uri:,,} from input
+    let imageRef = null;
+    if (data.uri) {
+      imageRef = await uploadImageToStorage(data.uri);
+    }
+
     // const newArray = [...goals, newGoal];
     // setGoals(newArray)
     // setGoals((prevGoals) => {
     //   return [...prevGoals, newGoal];
     // });
-    writeToDB(newGoal);
+    if (imageRef) {
+      writeToDB({ text: data.text, imageRef: imageRef });
+    } else {
+      writeToDB({ text: data.text });
+    }
 
-    //use the received data to update the text state variable
-    setText(data);
     makeModalInvisible();
   }
 
@@ -120,8 +142,8 @@ export default function Home({ navigation }) {
         {/* pass another prop to Input with the modalIsVisible as its value */}
         <Input
           changedHandler={changedDataHandler}
-          modalVisible={isModalVisible}
-          cancelHandler={makeModalInvisible}
+          modalVisiblity={isModalVisible}
+          hideModal={makeModalInvisible}
         />
         <Button title="Add a goal" onPress={makeModalVisible} />
         {/* Inside this text show what user is typing */}

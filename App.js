@@ -10,6 +10,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './firebase/firebaseSetup'
 import Profile from "./components/Profile";
 import { Ionicons } from "@expo/vector-icons";
+import Map from './components/Map'
 
 
 const Stack = createNativeStackNavigator();
@@ -85,6 +86,16 @@ const AppStack = (
         }
       }}
     />
+    <Stack.Screen 
+      name='Map' 
+      component={Map}
+      options={({ route }) => {
+        return {
+          title: 'Map'
+        }
+      }}
+    />
+
     
   </>
 )

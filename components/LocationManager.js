@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { MAP_API } from "@env";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { saveUserInfo, getUserInfo } from "../firebase/firestoreHelper";
+
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -20,6 +22,23 @@ export default function LocationManager() {
     }
   }, [route]);
 
+  useEffect(() => {
+    //call getUserInfo and if there is location field
+    // call setLocation
+    async function getUserLocation() {
+      try {
+        const data = await getUserInfo();
+        console.log(data);
+        if (data.location) {
+          setLocation(data.location);
+        }
+      } catch (err) {
+        console.log("get user location ", err);
+      }
+    }
+    getUserLocation();
+  }, []);
+
   const verifyPermission = async () => {
     if (status.granted) {
       return true;
@@ -34,18 +53,28 @@ export default function LocationManager() {
         Alert.alert("You need to give access to the location");
       }
       const locationObject = await Location.getCurrentPositionAsync();
-
-      setLocation({
+      const obj = {
         latitude: locationObject.coords.latitude,
         longitude: locationObject.coords.longitude,
-      });
+      }
+      setLocation(obj);
+      console.log("my lo", obj)
     } catch (err) {
       console.log("locate user ", err);
     }
   }
   const chooseLocationHandler = () => {
-    navigation.navigate("Map");
+    // pass cords to Map
+    navigation.navigate("Map", { initialLocation: location });
   };
+  const saveLocationHandler = async () => {
+    
+    await saveUserInfo({location: location});
+    // navigation.navigate("Home");
+  }
+
+  
+
   return (
     <View>
       <Button title="Locate Me!" onPress={locateMeHandler} />
@@ -61,6 +90,7 @@ export default function LocationManager() {
           style={styles.image}
         />
       )}
+      <Button disabled={!location} title="save location" onPress={saveLocationHandler}/>
     </View>
   );
 }
